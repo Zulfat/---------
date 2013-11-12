@@ -69,9 +69,11 @@
     }
 }
 -(void) Update: (NSTimer*) t {
-    NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:timeOfStart];
-    interval++;
-    [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[NSString stringWithFormat:@"%i%i:%i%i",((int)interval/3600)/10,((int)interval/3600)%10,(((int)interval/60)%60)/10,(((int)interval/60)%60)%10]];
+    if (timeOfStart && !timeOfEnd) {
+        NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:timeOfStart];
+        interval++;
+        [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[NSString stringWithFormat:@"%i%i:%i%i",((int)interval/3600)/10,((int)interval/3600)%10,(((int)interval/60)%60)/10,(((int)interval/60)%60)%10]];
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -103,25 +105,30 @@
     [Timerlabel setTextColor:[UIColor blackColor]];
         [Timerlabel setText:@"00:00"];
     [statusButton addSubview:Timerlabel]; // добавляем timerlabel как subview
+    
     CGRect frame;;
     frame.origin.x = 0;
     frame.origin.y=0;
-    frame.size= scrollView.frame.size;//scrollView.frame.size;
-    UITableView* tasksAtWorktb = [[UITableView alloc] initWithFrame:frame];
+    frame.size= scrollView.frame.size;
     
+    UITableView* tasksAtWorktb = [[UITableView alloc] initWithFrame:frame];
     [tasksAtWorktb setDelegate:self];
     [tasksAtWorktb setDataSource:self];
     tasksAtWorkTable = tasksAtWorktb;
     [scrollView addSubview:tasksAtWorktb];
-    frame.origin.x = scrollView.frame.size.width;
+    
+    frame.origin.x = tasksAtWorktb.frame.size.width;
     UITableView* assignedTaskstb = [[UITableView alloc] initWithFrame:frame];
     [assignedTaskstb setDataSource:self];
     [assignedTaskstb setDelegate:self];
     assignedTasksTable = assignedTaskstb;
     [scrollView addSubview:assignedTaskstb];
+    
     [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*2,scrollView.frame.size.height)] ;
+    
     NSDateFormatter* formatter = [[NSDateFormatter alloc ] init];
     [formatter setDateFormat:@"dd.MM.yyyy hh:mm"];
+    
     if ([self timeOfStart] != nil) {
         UILabel* startLabel = [[UILabel alloc] init];
         [startLabel setFrame:CGRectMake(0, 0, 263, 50)];
@@ -132,6 +139,8 @@
         [startLabel setText:[formatter stringFromDate:timeOfStart]];
         [statusButton addSubview:startLabel];
         [self Update:nil];
+        timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(Update:) userInfo:Nil repeats:YES];
+
     }
     if ([self timeOfEnd] !=nil) {
         UILabel* endLabel = [[UILabel alloc] init];
@@ -145,7 +154,6 @@
         [self Update:nil];
 
     }
-    timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(Update:) userInfo:Nil repeats:YES];
 }
 
 - (void)didReceiveMemoryWarning
