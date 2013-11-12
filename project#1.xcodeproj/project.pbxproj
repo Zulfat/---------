@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		132176AE182E8A8300A372C2 /* loginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 132176AD182E8A8300A372C2 /* loginController.m */; };
 		1337C320182D20C9006420B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337C31F182D20C9006420B1 /* Foundation.framework */; };
 		1337C322182D20C9006420B1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337C321182D20C9006420B1 /* CoreGraphics.framework */; };
 		1337C324182D20C9006420B1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337C323182D20C9006420B1 /* UIKit.framework */; };
@@ -14,13 +15,14 @@
 		1337C32C182D20C9006420B1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1337C32B182D20C9006420B1 /* main.m */; };
 		1337C330182D20C9006420B1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1337C32F182D20C9006420B1 /* AppDelegate.m */; };
 		1337C333182D20C9006420B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1337C331182D20C9006420B1 /* Main.storyboard */; };
-		1337C336182D20C9006420B1 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1337C335182D20C9006420B1 /* ViewController.m */; };
 		1337C338182D20C9006420B1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1337C337182D20C9006420B1 /* Images.xcassets */; };
 		1337C33F182D20C9006420B1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337C33E182D20C9006420B1 /* XCTest.framework */; };
 		1337C340182D20C9006420B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337C31F182D20C9006420B1 /* Foundation.framework */; };
 		1337C341182D20C9006420B1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1337C323182D20C9006420B1 /* UIKit.framework */; };
 		1337C349182D20C9006420B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1337C347182D20C9006420B1 /* InfoPlist.strings */; };
 		1337C34B182D20C9006420B1 /* project_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1337C34A182D20C9006420B1 /* project_1Tests.m */; };
+		1337C356182D2335006420B1 /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1337C355182D2335006420B1 /* TasksViewController.m */; };
+		13EB3AF71830BFDC00CAE199 /* OptionControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3AF61830BFDC00CAE199 /* OptionControllerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		132176AC182E8A8300A372C2 /* loginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = loginController.h; path = ../loginController.h; sourceTree = "<group>"; };
+		132176AD182E8A8300A372C2 /* loginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = loginController.m; path = ../loginController.m; sourceTree = "<group>"; };
 		1337C31C182D20C9006420B1 /* project#1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "project#1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1337C31F182D20C9006420B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1337C321182D20C9006420B1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -45,14 +49,16 @@
 		1337C32E182D20C9006420B1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1337C32F182D20C9006420B1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1337C332182D20C9006420B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		1337C334182D20C9006420B1 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1337C335182D20C9006420B1 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1337C337182D20C9006420B1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1337C33D182D20C9006420B1 /* project#1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "project#1Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1337C33E182D20C9006420B1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		1337C346182D20C9006420B1 /* project#1Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "project#1Tests-Info.plist"; sourceTree = "<group>"; };
 		1337C348182D20C9006420B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1337C34A182D20C9006420B1 /* project_1Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = project_1Tests.m; sourceTree = "<group>"; };
+		1337C354182D2335006420B1 /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
+		1337C355182D2335006420B1 /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
+		13EB3AF51830BFDC00CAE199 /* OptionControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionControllerViewController.h; path = ../OptionControllerViewController.h; sourceTree = "<group>"; };
+		13EB3AF61830BFDC00CAE199 /* OptionControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionControllerViewController.m; path = ../OptionControllerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,11 +118,15 @@
 		1337C325182D20C9006420B1 /* project#1 */ = {
 			isa = PBXGroup;
 			children = (
+				132176AC182E8A8300A372C2 /* loginController.h */,
+				132176AD182E8A8300A372C2 /* loginController.m */,
 				1337C32E182D20C9006420B1 /* AppDelegate.h */,
 				1337C32F182D20C9006420B1 /* AppDelegate.m */,
 				1337C331182D20C9006420B1 /* Main.storyboard */,
-				1337C334182D20C9006420B1 /* ViewController.h */,
-				1337C335182D20C9006420B1 /* ViewController.m */,
+				13EB3AF51830BFDC00CAE199 /* OptionControllerViewController.h */,
+				13EB3AF61830BFDC00CAE199 /* OptionControllerViewController.m */,
+				1337C354182D2335006420B1 /* TasksViewController.h */,
+				1337C355182D2335006420B1 /* TasksViewController.m */,
 				1337C337182D20C9006420B1 /* Images.xcassets */,
 				1337C326182D20C9006420B1 /* Supporting Files */,
 			);
@@ -249,9 +259,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1337C336182D20C9006420B1 /* ViewController.m in Sources */,
+				1337C356182D2335006420B1 /* TasksViewController.m in Sources */,
+				132176AE182E8A8300A372C2 /* loginController.m in Sources */,
 				1337C330182D20C9006420B1 /* AppDelegate.m in Sources */,
 				1337C32C182D20C9006420B1 /* main.m in Sources */,
+				13EB3AF71830BFDC00CAE199 /* OptionControllerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +472,7 @@
 				1337C350182D20C9006420B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1337C351182D20C9006420B1 /* Build configuration list for PBXNativeTarget "project#1Tests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +481,7 @@
 				1337C353182D20C9006420B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

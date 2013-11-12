@@ -7,12 +7,29 @@
 //
 
 #import "AppDelegate.h"
+#import "loginController.h"
 
 @implementation AppDelegate
+@synthesize userInfo;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    userInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
+    if (!userInfo) {
+        userInfo = [[NSMutableDictionary alloc] init];
+        [userInfo setValue:[NSNumber numberWithBool:NO] forKey:@"status"];
+        @try {
+          self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]]
+                        instantiateViewControllerWithIdentifier:@"loginView"];
+        }
+        
+        @catch (NSException *exception) {
+            NSLog(@"%@",exception);
+        }
+        
+    }
     return YES;
 }
 							
@@ -24,8 +41,8 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    if (userInfo)
+        [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"userInfo"];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
