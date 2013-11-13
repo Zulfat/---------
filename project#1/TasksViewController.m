@@ -197,15 +197,12 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"cell" owner:self options:nil] objectAtIndex:0];
     }
     if(tableView == tasksAtWorkTable) {
-        //[[cell textLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"key"]];// описание задания
-        //[[cell detailTextLabel] setText:[NSString stringWithFormat:@"summary:%@, last updated:%@",[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"summary"],[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"updated"]]];
-        
         NSURL *statusIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"statusIcon"]];// создание и посылка запросов
         NSURL* prIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
         NSURL* typeIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
-        NSMutableURLRequest* a = [NSURLRequest requestWithURL:statusIconURL cachePolicy:0 timeoutInterval:10];
-        NSMutableURLRequest* prIconReq = [NSURLRequest requestWithURL:prIconURL cachePolicy:0 timeoutInterval:10];
-        NSMutableURLRequest* typeIconReq = [NSURLRequest requestWithURL:typeIconURL cachePolicy:0 timeoutInterval:10];
+        NSMutableURLRequest* a = [NSURLRequest requestWithURL:statusIconURL cachePolicy:0 timeoutInterval:60];
+        NSMutableURLRequest* prIconReq = [NSURLRequest requestWithURL:prIconURL cachePolicy:0 timeoutInterval:60];
+        NSMutableURLRequest* typeIconReq = [NSURLRequest requestWithURL:typeIconURL cachePolicy:0 timeoutInterval:60];
         NSData* imgSt = (UIImage*)[NSURLConnection sendSynchronousRequest:a returningResponse:nil error:nil];
         NSData* imgPr = (UIImage*)[NSURLConnection sendSynchronousRequest:prIconReq returningResponse:nil error:nil];
         NSData* imgType = (UIImage*)[NSURLConnection sendSynchronousRequest:typeIconReq returningResponse:nil error:nil];
@@ -214,22 +211,20 @@
     
         [[(Cellcontr*)cell statusImage] setImage:[UIImage imageWithData:imgSt]];
         [[(Cellcontr*)cell typeImage] setImage:[UIImage imageWithData:imgType]];
-        [[(Cellcontr*)cell typeImage] setImage:[UIImage imageWithData:imgPr]];
+        [[(Cellcontr*)cell prImage] setImage:[UIImage imageWithData:imgPr]];
         [[(Cellcontr*)cell keyLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"key"]];
         [[(Cellcontr*)cell summaryLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"summary"]];
         
     }
     else {
-        [[cell textLabel] setText:[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"key"]];// описание задания
-        [[cell detailTextLabel] setText:[NSString stringWithFormat:@"summary:%@, last updated:%@",[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"summary"],[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"updated"]]];
     
     
         NSURL *statusIconURL = [NSURL URLWithString:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"statusIcon"]];// создание и посылка запросов
         NSURL* prIconURL = [NSURL URLWithString:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
         NSURL* typeIconURL = [NSURL URLWithString:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
-        NSMutableURLRequest* a = [NSURLRequest requestWithURL:statusIconURL cachePolicy:0 timeoutInterval:10];
-        NSMutableURLRequest* prIconReq = [NSURLRequest requestWithURL:prIconURL cachePolicy:0 timeoutInterval:10];
-        NSMutableURLRequest* typeIconReq = [NSURLRequest requestWithURL:typeIconURL cachePolicy:0 timeoutInterval:10];
+        NSMutableURLRequest* a = [NSURLRequest requestWithURL:statusIconURL cachePolicy:0 timeoutInterval:60];
+        NSMutableURLRequest* prIconReq = [NSURLRequest requestWithURL:prIconURL cachePolicy:0 timeoutInterval:60];
+        NSMutableURLRequest* typeIconReq = [NSURLRequest requestWithURL:typeIconURL cachePolicy:0 timeoutInterval:60];
         NSData* imgSt = (UIImage*)[NSURLConnection sendSynchronousRequest:a returningResponse:nil error:nil];
         NSData* imgPr = (UIImage*)[NSURLConnection sendSynchronousRequest:prIconReq returningResponse:nil error:nil];
         NSData* imgType = (UIImage*)[NSURLConnection sendSynchronousRequest:typeIconReq returningResponse:nil error:nil];
@@ -237,8 +232,10 @@
         
         [[(Cellcontr*)cell statusImage] setImage:[UIImage imageWithData:imgSt]];
         [[(Cellcontr*)cell typeImage] setImage:[UIImage imageWithData:imgType]];
-        [[(Cellcontr*)cell keyLabel] setText:[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"key"]];
-        [[(Cellcontr*)cell summaryLabel] setText:[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"summary"]];    }
+        [[(Cellcontr*)cell prImage] setImage:[UIImage imageWithData:imgPr]];
+        [[(Cellcontr*)cell keyLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"key"]];
+        [[(Cellcontr*)cell summaryLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"summary"]];
+    }
     return cell;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
