@@ -9,6 +9,7 @@
 #import "TasksViewController.h"
 #import "AppDelegate.h"
 #import "loginController.h"
+#import "Cellcontr.h"
 @interface TasksViewController ()
 
 @end
@@ -190,14 +191,14 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    UITableViewCell* cell = (Cellcontr*)[tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        //cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"cell" owner:self options:nil] objectAtIndex:0];
     }
     if(tableView == tasksAtWorkTable) {
         //[[cell textLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"key"]];// описание задания
         //[[cell detailTextLabel] setText:[NSString stringWithFormat:@"summary:%@, last updated:%@",[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"summary"],[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"updated"]]];
-        
         
         NSURL *statusIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"statusIcon"]];// создание и посылка запросов
         NSURL* prIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
@@ -211,32 +212,12 @@
         
         
     
-        //[[cell imageView] setImage:[UIImage imageWithData:imgSt]];
-        UIView* view = [[UIView alloc] initWithFrame:cell.frame];
-        CGRect frame;
-        frame.origin.x=0;
-        frame.origin.y=0;
-        frame.size.width=25;
-        frame.size.height = cell.frame.size.height;
-        UIImageView* imv=[[UIImageView alloc] initWithFrame:frame];
-        [imv setImage:[UIImage imageWithData:imgSt]];
-        [view addSubview:imv];
+        [[(Cellcontr*)cell statusImage] setImage:[UIImage imageWithData:imgSt]];
+        [[(Cellcontr*)cell typeImage] setImage:[UIImage imageWithData:imgType]];
+        [[(Cellcontr*)cell typeImage] setImage:[UIImage imageWithData:imgPr]];
+        [[(Cellcontr*)cell keyLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"key"]];
+        [[(Cellcontr*)cell summaryLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"summary"]];
         
-        frame.origin.x=30;
-        frame.size.width = cell.frame.size.width-60;
-        UILabel* keylabel = [[UILabel alloc] initWithFrame:frame];
-        keylabel.text = [(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"key"];
-        [view addSubview:keylabel];
-        
-        frame.origin.x=cell.frame.size.width-90;
-        frame.size.width=30;
-        UIImageView* imv2 = [[UIImageView alloc] initWithFrame:frame];
-        [imv2 setImage:[UIImage imageWithData:imgType]];
-        [view addSubview:imv2];
-        
-        
-        
-        [cell addSubview:view];
     }
     else {
         [[cell textLabel] setText:[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"key"]];// описание задания
@@ -254,32 +235,10 @@
         NSData* imgType = (UIImage*)[NSURLConnection sendSynchronousRequest:typeIconReq returningResponse:nil error:nil];
         
         
-        UIView* view = [[UIView alloc] initWithFrame:cell.frame];
-        CGRect frame;
-        frame.origin.x=0;
-        frame.origin.y=0;
-        frame.size.width=25;
-        frame.size.height = cell.frame.size.height;
-        UIImageView* imv=[[UIImageView alloc] initWithFrame:frame];
-        [imv setImage:[UIImage imageWithData:imgSt]];
-        [view addSubview:imv];
-        
-        frame.origin.x=30;
-        frame.size.width = cell.frame.size.width-60;
-        UILabel* keylabel = [[UILabel alloc] initWithFrame:frame];
-        keylabel.text = [(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"key"];
-        [view addSubview:keylabel];
-        
-        frame.origin.x=cell.frame.size.width-90;
-        frame.size.width=30;
-        UIImageView* imv2 = [[UIImageView alloc] initWithFrame:frame];
-        [imv2 setImage:[UIImage imageWithData:imgType]];
-        [view addSubview:imv2];
-        
-        
-        
-        [cell addSubview:view];
-    }
+        [[(Cellcontr*)cell statusImage] setImage:[UIImage imageWithData:imgSt]];
+        [[(Cellcontr*)cell typeImage] setImage:[UIImage imageWithData:imgType]];
+        [[(Cellcontr*)cell keyLabel] setText:[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"key"]];
+        [[(Cellcontr*)cell summaryLabel] setText:[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"summary"]];    }
     return cell;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)sender {

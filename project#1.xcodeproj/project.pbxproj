@@ -22,6 +22,9 @@
 		1337C349182D20C9006420B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1337C347182D20C9006420B1 /* InfoPlist.strings */; };
 		1337C34B182D20C9006420B1 /* project_1Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1337C34A182D20C9006420B1 /* project_1Tests.m */; };
 		1337C356182D2335006420B1 /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1337C355182D2335006420B1 /* TasksViewController.m */; };
+		13B589D71833AE2900AFD92D /* cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B589D61833AE2900AFD92D /* cell.xib */; };
+		13B589DA1833AFCF00AFD92D /* Cellcontr.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B589D91833AFCF00AFD92D /* Cellcontr.m */; };
+		13B589DC1833B50E00AFD92D /* imgres.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 13B589DB1833B50E00AFD92D /* imgres.jpg */; };
 		13EB3AF71830BFDC00CAE199 /* OptionControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13EB3AF61830BFDC00CAE199 /* OptionControllerViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +60,10 @@
 		1337C34A182D20C9006420B1 /* project_1Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = project_1Tests.m; sourceTree = "<group>"; };
 		1337C354182D2335006420B1 /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
 		1337C355182D2335006420B1 /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
+		13B589D61833AE2900AFD92D /* cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = cell.xib; path = ../cell.xib; sourceTree = "<group>"; };
+		13B589D81833AFCF00AFD92D /* Cellcontr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cellcontr.h; path = ../Cellcontr.h; sourceTree = "<group>"; };
+		13B589D91833AFCF00AFD92D /* Cellcontr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cellcontr.m; path = ../Cellcontr.m; sourceTree = "<group>"; };
+		13B589DB1833B50E00AFD92D /* imgres.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imgres.jpg; sourceTree = "<group>"; };
 		13EB3AF51830BFDC00CAE199 /* OptionControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionControllerViewController.h; path = ../OptionControllerViewController.h; sourceTree = "<group>"; };
 		13EB3AF61830BFDC00CAE199 /* OptionControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionControllerViewController.m; path = ../OptionControllerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,6 +125,10 @@
 		1337C325182D20C9006420B1 /* project#1 */ = {
 			isa = PBXGroup;
 			children = (
+				13B589D61833AE2900AFD92D /* cell.xib */,
+				13B589D81833AFCF00AFD92D /* Cellcontr.h */,
+				13B589D91833AFCF00AFD92D /* Cellcontr.m */,
+				13B589DB1833B50E00AFD92D /* imgres.jpg */,
 				132176AC182E8A8300A372C2 /* loginController.h */,
 				132176AD182E8A8300A372C2 /* loginController.m */,
 				1337C32E182D20C9006420B1 /* AppDelegate.h */,
@@ -239,6 +250,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1337C338182D20C9006420B1 /* Images.xcassets in Resources */,
+				13B589DC1833B50E00AFD92D /* imgres.jpg in Resources */,
+				13B589D71833AE2900AFD92D /* cell.xib in Resources */,
 				1337C32A182D20C9006420B1 /* InfoPlist.strings in Resources */,
 				1337C333182D20C9006420B1 /* Main.storyboard in Resources */,
 			);
@@ -261,6 +274,7 @@
 			files = (
 				1337C356182D2335006420B1 /* TasksViewController.m in Sources */,
 				132176AE182E8A8300A372C2 /* loginController.m in Sources */,
+				13B589DA1833AFCF00AFD92D /* Cellcontr.m in Sources */,
 				1337C330182D20C9006420B1 /* AppDelegate.m in Sources */,
 				1337C32C182D20C9006420B1 /* main.m in Sources */,
 				13EB3AF71830BFDC00CAE199 /* OptionControllerViewController.m in Sources */,
