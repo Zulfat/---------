@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TasksViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
-@property NSArray* tasksAtWork;
+@interface TasksViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,NSURLConnectionDataDelegate>
+@property NSMutableArray* tasksAtWork;
 @property NSArray* assignedTasks;
 @property BOOL status;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
