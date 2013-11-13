@@ -19,7 +19,7 @@
     bool st = [[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue];
     [[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] setValue:[NSNumber numberWithBool:!st] forKey:@"status"]  ;
    
-    if (st) {
+    if (st) {// st был true, т.е. перход at work -> home
         timeOfEnd = [NSDate date];
           [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:timeOfEnd forKey:@"timeofend"];
         [statusButton setBackgroundColor:[UIColor grayColor]];
@@ -39,8 +39,9 @@
             [statusButton addSubview:endLabel];
         }
         [statusBar setText:@"Home"];
+        [timer invalidate];
     }
-    else {
+    else {// home -> at work
         timeOfStart = [NSDate date] ;
         [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] setObject:timeOfStart forKey:@"timeofstart"];
         [statusButton setBackgroundColor:[UIColor greenColor]];
@@ -65,12 +66,18 @@
             [[[statusButton subviews] objectAtIndex:2] removeFromSuperview];
             [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] removeObjectForKey:@"timeofend"];
         }
-     [statusBar setText:@"At Work"];
+        [statusBar setText:@"At Work"];
+        [self Update:nil];
     }
 }
 -(void) Update: (NSTimer*) t {
     if (timeOfStart && !timeOfEnd) {
         NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:timeOfStart];
+        interval++;
+        [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[NSString stringWithFormat:@"%i%i:%i%i",((int)interval/3600)/10,((int)interval/3600)%10,(((int)interval/60)%60)/10,(((int)interval/60)%60)%10]];
+    }
+    if (timeOfEnd && timeOfStart) {
+         NSTimeInterval interval = [timeOfStart timeIntervalSinceDate:timeOfStart];
         interval++;
         [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[NSString stringWithFormat:@"%i%i:%i%i",((int)interval/3600)/10,((int)interval/3600)%10,(((int)interval/60)%60)/10,(((int)interval/60)%60)%10]];
     }
@@ -88,6 +95,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [scrollView setDelegate:self];
     timeOfStart =   [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"timeofstart"];
     timeOfEnd =   [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"timeofend"];
     if ([[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue]) {
@@ -111,13 +119,13 @@
     frame.origin.y=0;
     frame.size= scrollView.frame.size;
     
-    UITableView* tasksAtWorktb = [[UITableView alloc] initWithFrame:frame];
+    UITableView* tasksAtWorktb = [[UITableView alloc] initWithFrame:frame];// создаем и добавляем tasksAtWork как subview
     [tasksAtWorktb setDelegate:self];
     [tasksAtWorktb setDataSource:self];
     tasksAtWorkTable = tasksAtWorktb;
     [scrollView addSubview:tasksAtWorktb];
     
-    frame.origin.x = tasksAtWorktb.frame.size.width;
+    frame.origin.x = tasksAtWorktb.frame.size.width; // создаем и добавляем assignedTasks как subview
     UITableView* assignedTaskstb = [[UITableView alloc] initWithFrame:frame];
     [assignedTaskstb setDataSource:self];
     [assignedTaskstb setDelegate:self];
@@ -186,6 +194,7 @@
     return cell;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
-        self.pageController.currentPage = 2;
+    int page = scrollView.contentOffset.x/scrollView.frame.size.width;
+        self.pageController.currentPage = page;
 }
 @end
