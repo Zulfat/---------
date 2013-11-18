@@ -8,9 +8,9 @@
 
 #import "AppDelegate.h"
 #import "loginController.h"
-
+#import "JSONKit.h"
 @implementation AppDelegate
-@synthesize userInfo,icons;
+@synthesize userInfo,icons,loggedIN,tasksAtPause,tasksAtWork,assignedTasks;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -24,6 +24,7 @@
     if (!userInfo) {
         userInfo = [[NSMutableDictionary alloc] init];
         [userInfo setValue:[NSNumber numberWithBool:NO] forKey:@"status"];
+        loggedIN = NO;
         @try {
           self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]]
                         instantiateViewControllerWithIdentifier:@"loginView"];
@@ -66,5 +67,6 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
 
 @end

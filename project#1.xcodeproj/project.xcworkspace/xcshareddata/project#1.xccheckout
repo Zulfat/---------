@@ -12,6 +12,8 @@
 	<dict>
 		<key>0985839D-9969-4832-AD10-A2925A138337</key>
 		<string>https://github.com/Zulfat/---------.git</string>
+		<key>7000C6ED-029B-4988-9E3F-558AF8C7421D</key>
+		<string>https://github.com/johnezang/JSONKit</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>project#1.xcodeproj/project.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>0985839D-9969-4832-AD10-A2925A138337</key>
 		<string>../..</string>
+		<key>7000C6ED-029B-4988-9E3F-558AF8C7421D</key>
+		<string>../../../../JSONKit</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/Zulfat/---------.git</string>
@@ -35,6 +39,14 @@
 			<string>0985839D-9969-4832-AD10-A2925A138337</string>
 			<key>IDESourceControlWCCName</key>
 			<string>отмечалка</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>7000C6ED-029B-4988-9E3F-558AF8C7421D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>JSONKit</string>
 		</dict>
 	</array>
 </dict>

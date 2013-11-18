@@ -15,7 +15,7 @@
 @end
 
 @implementation TasksViewController
-@synthesize tasksAtWork,assignedTasks,status,scrollView,timeOfEnd,timeOfStart,statusButton,timer,statusBar,tasksAtWorkTable,assignedTasksTable,iconsdict;
+@synthesize tasksAtWork,assignedTasks,status,scrollView,timeOfEnd,timeOfStart,statusButton,timer,statusBar,tasksAtWorkTable,assignedTasksTable;
 - (IBAction)start_end:(id)sender {
     bool st = [[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue];
     [[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] setValue:[NSNumber numberWithBool:!st] forKey:@"status"]  ;
@@ -97,7 +97,6 @@
 {
     [super viewDidLoad];
     [scrollView setDelegate:self];
-    iconsdict = [[NSMutableDictionary alloc] init];
     timeOfStart =   [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"timeofstart"];
     timeOfEnd =   [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"timeofend"];
     if ([[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue]) {
@@ -212,17 +211,15 @@
         /*if (!imgPr) {
              NSURL* prIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
              NSMutableURLRequest* prIconReq = [NSURLRequest requestWithURL:prIconURL cachePolicy:0 timeoutInterval:60];
-            //imgPr = (UIImage*)[NSURLConnection sendSynchronousRequest:prIconReq returningResponse:nil error:nil];
-            imgPr = [[NSMutableData alloc] init];
-            [[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgPr forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
+            //imgPr = [[NSMutableData alloc] init];
+            //[[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgPr forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
             [NSURLConnection connectionWithRequest:prIconReq delegate:self];
         }*/
         /*if (!imgType) {
             NSURL* typeIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
             NSMutableURLRequest* typeIconReq = [NSURLRequest requestWithURL:typeIconURL cachePolicy:0 timeoutInterval:60];
-            //imgType = (UIImage*)[NSURLConnection sendSynchronousRequest:typeIconReq returningResponse:nil error:nil];
-            imgType = [[NSMutableData alloc] init];
-            [[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgType forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
+            //imgType = [[NSMutableData alloc] init];
+            //[[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgType forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
             
             [NSURLConnection connectionWithRequest:typeIconReq delegate:self];
         }*/
@@ -242,21 +239,24 @@
         if (!imgSt) {
             NSURL *statusIconURL = [NSURL URLWithString:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"statusIcon"]];// создание и посылка запросов
             NSMutableURLRequest* a = [NSURLRequest requestWithURL:statusIconURL cachePolicy:0 timeoutInterval:60];
-            imgSt = (UIImage*)[NSURLConnection sendSynchronousRequest:a returningResponse:nil error:nil];
-            [[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgSt forKey:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]];
+            //imgSt = (UIImage*)[NSURLConnection sendSynchronousRequest:a returningResponse:nil error:nil];
+            //[[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgSt forKey:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]];
+            [NSURLConnection connectionWithRequest:a delegate:self];
             
         }
         if (!imgPr) {
             NSURL* prIconURL = [NSURL URLWithString:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
             NSMutableURLRequest* prIconReq = [NSURLRequest requestWithURL:prIconURL cachePolicy:0 timeoutInterval:60];
-            NSData* imgPr = (UIImage*)[NSURLConnection sendSynchronousRequest:prIconReq returningResponse:nil error:nil];
-            [[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgPr forKey:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
+            //NSData* imgPr = (UIImage*)[NSURLConnection sendSynchronousRequest:prIconReq returningResponse:nil error:nil];
+            //[[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgPr forKey:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
+            [NSURLConnection connectionWithRequest:prIconReq delegate:self];
         }
         if (!imgType) {
             NSURL* typeIconURL = [NSURL URLWithString:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
             NSMutableURLRequest* typeIconReq = [NSURLRequest requestWithURL:typeIconURL cachePolicy:0 timeoutInterval:60];
-            NSData* imgType = (UIImage*)[NSURLConnection sendSynchronousRequest:typeIconReq returningResponse:nil error:nil];
-            [[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgType forKey:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
+            //NSData* imgType = (UIImage*)[NSURLConnection sendSynchronousRequest:typeIconReq returningResponse:nil error:nil];
+            //[[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgType forKey:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
+            [NSURLConnection connectionWithRequest:typeIconReq delegate:self];
         }
         
         

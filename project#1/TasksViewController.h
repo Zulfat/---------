@@ -10,7 +10,7 @@
 
 @interface TasksViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,NSURLConnectionDataDelegate>
 @property NSMutableArray* tasksAtWork;
-@property NSArray* assignedTasks;
+@property NSMutableArray* assignedTasks;
 @property BOOL status;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) NSDate* timeOfStart;
@@ -21,5 +21,4 @@
 @property (weak,nonatomic) UITableView* tasksAtWorkTable;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageController;
 @property (weak, nonatomic) UITableView* assignedTasksTable;
-@property (strong, atomic) NSMutableDictionary* iconsdict;
 @end

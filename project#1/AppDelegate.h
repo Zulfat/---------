@@ -13,4 +13,8 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSDictionary* userInfo;
 @property (strong, nonatomic) NSMutableDictionary* icons;
+@property (atomic) BOOL loggedIN;
+@property (strong, nonatomic) NSMutableArray* tasksAtWork;
+@property (strong,nonatomic) NSMutableArray* tasksAtPause;
+@property (strong, nonatomic) NSMutableArray* assignedTasks;
 @end
