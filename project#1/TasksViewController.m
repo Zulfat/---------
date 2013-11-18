@@ -10,6 +10,22 @@
 #import "AppDelegate.h"
 #import "loginController.h"
 #import "Cellcontr.h"
+#import <CommonCrypto/CommonDigest.h>
+
+@implementation NSString(MD5)
+
+- (NSString*)MD5
+{
+    const char *ptr = [self UTF8String];
+    unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(ptr, strlen(ptr), md5Buffer);
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x",md5Buffer[i]];
+    return output;
+}
+
+@end
 @interface TasksViewController ()
 
 @end
@@ -18,8 +34,10 @@
 @synthesize tasksAtWork,assignedTasks,status,scrollView,timeOfEnd,timeOfStart,statusButton,timer,statusBar,tasksAtWorkTable,assignedTasksTable;
 - (IBAction)start_end:(id)sender {
     bool st = [[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue];
+    NSString* login = [[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"login"];
+    NSString* password = [[(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"password"];
+    NSString* status = [[NSString alloc] init];
     [[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] setValue:[NSNumber numberWithBool:!st] forKey:@"status"]  ;
-   
     if (st) {// st был true, т.е. перход at work -> home
         timeOfEnd = [NSDate date];
           [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:timeOfEnd forKey:@"timeofend"];
@@ -41,6 +59,7 @@
         }
         [statusBar setText:@"Home"];
         [timer invalidate];
+        status = @"off";
     }
     else {// home -> at work
         timeOfStart = [NSDate date] ;
@@ -69,7 +88,12 @@
         }
         [statusBar setText:@"At Work"];
         [self Update:nil];
+        status = @"on";
     }
+    NSURL* changestatusUrl = [NSURL URLWithString:[[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@&cmd=%@",login, [password MD5],status] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableURLRequest* changeStatusReq = [NSMutableURLRequest requestWithURL:changestatusUrl];
+    [changeStatusReq setHTTPMethod:@"POST"];
+    [NSURLConnection sendAsynchronousRequest:changeStatusReq queue:nil completionHandler:nil];
 }
 -(void) Update: (NSTimer*) t {
     if (timeOfStart && !timeOfEnd) {

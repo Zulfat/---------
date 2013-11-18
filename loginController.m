@@ -15,20 +15,12 @@
 
 - (NSString*)MD5
 {
-    // Create pointer to the string as UTF8
     const char *ptr = [self UTF8String];
-    
-    // Create byte array of unsigned chars
     unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
-    
-    // Create 16 byte MD5 hash value, store in buffer
     CC_MD5(ptr, strlen(ptr), md5Buffer);
-    
-    // Convert MD5 value in the buffer to NSString of hex values
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
         [output appendFormat:@"%02x",md5Buffer[i]];
-    
     return output;
 }
 
@@ -62,13 +54,17 @@
     // Dispose of any resources that can be recreated.
 }
 -(IBAction)saveUserInfo:(id)sender{
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwordhash=%@",[self.login text], [[self.password text] MD5]]];
+    NSURL* url = [NSURL URLWithString:[[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",[self.login text], [[self.password text] MD5]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:url];
-    [req setHTTPMethod:@"POST"];
+    [req setHTTPMethod:@"GET"];
     [req setValue:[self.login text] forHTTPHeaderField:@"login"];
     [req setValue:[[self.password text] MD5] forHTTPHeaderField:@"PasswordHash"];
     NSLog(@"%@",req);
-    NSData* infdata = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
+    NSError* error = nil;
+    NSData* infdata = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:&error];
+    if (error) {
+        NSLog(@"%@",error);
+    }
     NSDictionary* inf = [infdata objectFromJSONData];
     [(AppDelegate*)[[UIApplication sharedApplication] delegate] setLoggedIN:(BOOL)[inf objectForKey:@"loginSuccess"]];
     if ((BOOL)[inf objectForKey:@"loginSuccess"]) {
