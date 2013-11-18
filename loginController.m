@@ -8,6 +8,7 @@
 
 #import "loginController.h"
 #import "AppDelegate.h"
+#import "TasksViewController.h"
 @interface loginController ()
 
 @end
@@ -37,8 +38,13 @@
     // Dispose of any resources that can be recreated.
 }
 -(IBAction)saveUserInfo:(id)sender{
-    [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:[self.login text] forKey:@"login"];
-    [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:[self.password text] forKey:@"password"];
+    BOOL logedIN =YES;
+    if (logedIN) {
+        [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:[self.login text] forKey:@"login"];
+        [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:[self.password text] forKey:@"password"];
+        [self presentModalViewController:(TasksViewController*)[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController] animated:YES];
+    
+    }
 }
 -(void)dismissKeyboard {
     [self.view endEditing:YES];

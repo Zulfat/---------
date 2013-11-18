@@ -12,4 +12,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) NSDictionary* userInfo;
+@property (strong, nonatomic) NSMutableDictionary* icons;
 @end

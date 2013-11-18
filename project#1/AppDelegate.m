@@ -10,13 +10,17 @@
 #import "loginController.h"
 
 @implementation AppDelegate
-@synthesize userInfo;
+@synthesize userInfo,icons;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     
     userInfo = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfo"];
+    icons = [[NSUserDefaults standardUserDefaults] objectForKey:@"icons"];
+    if (!icons) {
+        icons = [[NSMutableDictionary alloc] init];
+    }
     if (!userInfo) {
         userInfo = [[NSMutableDictionary alloc] init];
         [userInfo setValue:[NSNumber numberWithBool:NO] forKey:@"status"];
@@ -43,6 +47,9 @@
 {
     if (userInfo)
         [[NSUserDefaults standardUserDefaults] setObject:userInfo forKey:@"userInfo"];
+    if (icons) {
+        [[NSUserDefaults standardUserDefaults] setObject:icons forKey:@"icons"];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

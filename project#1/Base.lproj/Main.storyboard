@@ -22,7 +22,7 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                 <state key="normal" title="Login"/>
                                 <connections>
-                                    <segue destination="mT6-tq-PtC" kind="modal" id="5U5-92-sfd"/>
+                                    <action selector="saveUserInfo:" destination="DOe-t8-Bi7" eventType="touchUpInside" id="jIz-Pg-xWE"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4PE-nN-RoY">
@@ -82,7 +82,7 @@
         <!--Tasks View Controller-->
         <scene sceneID="lQn-4x-qrD">
             <objects>
-                <viewController id="kx7-dV-qz6" customClass="TasksViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainWindow" id="kx7-dV-qz6" customClass="TasksViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Jke-3c-lwv"/>
                         <viewControllerLayoutGuide type="bottom" id="lw3-wD-OrZ"/>
@@ -108,7 +108,7 @@
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nyr-FF-aoP">
-                                <rect key="frame" x="28" y="234" width="264" height="226"/>
+                                <rect key="frame" x="28" y="234" width="264" height="190"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RCR-G6-hqz">
@@ -126,7 +126,7 @@
                                 </connections>
                             </button>
                             <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="2" translatesAutoresizingMaskIntoConstraints="NO" id="ycR-9I-NaU">
-                                <rect key="frame" x="141" y="457" width="39" height="37"/>
+                                <rect key="frame" x="141" y="421" width="39" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="currentPageIndicatorTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </pageControl>
@@ -138,14 +138,17 @@
                             <constraint firstItem="nyr-FF-aoP" firstAttribute="top" secondItem="RCR-G6-hqz" secondAttribute="bottom" constant="29" id="HEh-Z2-sC5"/>
                             <constraint firstAttribute="centerX" secondItem="RCR-G6-hqz" secondAttribute="centerX" id="cWm-3h-97j"/>
                             <constraint firstAttribute="centerX" secondItem="nyr-FF-aoP" secondAttribute="centerX" id="cWu-ti-C0A"/>
+                            <constraint firstItem="8Ro-Du-Tod" firstAttribute="top" secondItem="nyr-FF-aoP" secondAttribute="bottom" constant="10" id="fXN-pk-kDK"/>
                             <constraint firstItem="lw3-wD-OrZ" firstAttribute="top" secondItem="8Ro-Du-Tod" secondAttribute="bottom" constant="10" id="gfN-R6-MlQ"/>
                             <constraint firstItem="8Ro-Du-Tod" firstAttribute="leading" secondItem="XZN-mv-BMN" secondAttribute="trailing" constant="105" id="h05-or-4BA"/>
                             <constraint firstItem="nyr-FF-aoP" firstAttribute="leading" secondItem="XZN-mv-BMN" secondAttribute="leading" id="hK3-v9-uZl"/>
-                            <constraint firstItem="8Ro-Du-Tod" firstAttribute="top" secondItem="nyr-FF-aoP" secondAttribute="bottom" priority="900" constant="48" id="iHk-ZE-fq4"/>
+                            <constraint firstItem="8Ro-Du-Tod" firstAttribute="top" secondItem="nyr-FF-aoP" secondAttribute="bottom" priority="900" constant="20" id="iHk-ZE-fq4"/>
                             <constraint firstItem="RCR-G6-hqz" firstAttribute="width" secondItem="nyr-FF-aoP" secondAttribute="width" id="zKv-OP-1Tt"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="K4C-Nc-XRC"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="pageController" destination="ycR-9I-NaU" id="E8k-ih-Ibn"/>
                         <outlet property="scrollView" destination="nyr-FF-aoP" id="Mz5-WD-rpl"/>
@@ -170,7 +173,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Db-dy-ytS">
-                                <rect key="frame" x="51" y="64" width="44" height="30"/>
+                                <rect key="frame" x="61" y="90" width="44" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="logout">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
