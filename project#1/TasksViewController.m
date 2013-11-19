@@ -33,14 +33,12 @@
 @implementation TasksViewController
 @synthesize status,scrollView,timeOfEnd,timeOfStart,statusButton,timer,statusBar,tasksAtWorkTable,assignedTasksTable,tasksAtPauseTable,tasksAtWork,tasksAtPause,assignedTasks;
 - (IBAction)start_end:(id)sender {
-    bool st = [[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue];
+    bool st = [[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"isWorking"] boolValue];
     NSString* login = [[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"login"];
     NSString* password = [[(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"password"];
     NSMutableString* Status = [[NSMutableString alloc] init];
-    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] setValue:[NSNumber numberWithBool:!st] forKey:@"status"]  ;
+    [[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] setValue:[NSNumber numberWithBool:!st] forKey:@"isWorking"]  ;
     if (st) {// st был true, т.е. перход at work -> home
-        timeOfEnd = [NSDate date];
-          [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:timeOfEnd forKey:@"timeofend"];
         [statusButton setBackgroundColor:[UIColor grayColor]];
         NSDateFormatter* formatter = [[NSDateFormatter alloc ] init];
         [formatter setDateFormat:@"dd.MM.yyyy hh:mm"];
@@ -62,8 +60,6 @@
         [Status appendString:@"off"];
     }
     else {// home -> at work
-        timeOfStart = [NSDate date] ;
-        [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] setObject:timeOfStart forKey:@"timeofstart"];
         [statusButton setBackgroundColor:[UIColor greenColor]];
         timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(Update:) userInfo:Nil repeats:YES];
         
@@ -94,6 +90,7 @@
     NSMutableURLRequest* changeStatusReq = [NSMutableURLRequest requestWithURL:changestatusUrl];
     [changeStatusReq setHTTPMethod:@"POST"];
     [NSURLConnection sendAsynchronousRequest:changeStatusReq queue:nil completionHandler:nil];
+    [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[[(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"workedTime"]];
 }
 -(void) Update: (NSTimer*) t {
     if (timeOfStart && !timeOfEnd) {
@@ -122,12 +119,17 @@
     [super viewDidLoad];
     
     [scrollView setDelegate:self];
-    timeOfStart =   [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"timeofstart"];
-    timeOfEnd =   [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"timeofend"];
+    NSDateFormatter* formatter = [[NSDateFormatter alloc ] init];
+    [formatter setDateFormat:@"dd.MM.yyyy HH:mm"];
+    NSDateFormatter* formatter1 = [[NSDateFormatter alloc ] init];
+    [formatter1 setDateFormat:@"dd.MM.yyyy"];
+    NSString* timeOfStartstr = [NSString stringWithFormat:@"%@ %@",[formatter1 stringFromDate:[NSDate date]],[(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"startTime"]];
+    timeOfStart=   [formatter dateFromString:timeOfStartstr];
+    timeOfEnd = [formatter dateFromString:[NSString stringWithFormat:@"%@ %@",[formatter1 stringFromDate:[NSDate date]],[(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"endTime"]]];
     tasksAtPause = [(AppDelegate*)[[UIApplication sharedApplication] delegate] tasksAtPause];
     tasksAtWork = [(AppDelegate*)[[UIApplication sharedApplication] delegate] tasksAtWork];
     assignedTasks = [(AppDelegate*) [[UIApplication sharedApplication] delegate] assignedTasks];
-    if ([[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue]) {
+    if ([[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"isWorking"] boolValue]) {
          [statusButton setBackgroundColor:[UIColor greenColor]];
         [statusBar setText:@"At Work"];
     }
@@ -140,7 +142,7 @@
     [Timerlabel setBackgroundColor:[UIColor clearColor]];
     [Timerlabel setFont:[UIFont systemFontOfSize:20.0]];
     [Timerlabel setTextColor:[UIColor blackColor]];
-        [Timerlabel setText:@"00:00"];
+        [Timerlabel setText:[(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"workedTime"]];
     [statusButton addSubview:Timerlabel]; // добавляем timerlabel как subview
     
     CGRect frame;;
@@ -171,7 +173,6 @@
     
     [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*3,scrollView.frame.size.height)] ;
     
-    NSDateFormatter* formatter = [[NSDateFormatter alloc ] init];
     [formatter setDateFormat:@"dd.MM.yyyy hh:mm"];
     
     if ([self timeOfStart] != nil) {
@@ -183,7 +184,6 @@
         [startLabel setTextAlignment:NSTextAlignmentCenter];
         [startLabel setText:[formatter stringFromDate:timeOfStart]];
         [statusButton addSubview:startLabel];
-        [self Update:nil];
         timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(Update:) userInfo:Nil repeats:YES];
 
     }
@@ -196,15 +196,8 @@
         [endLabel setTextAlignment:NSTextAlignmentCenter];
         [endLabel setText:[formatter stringFromDate:timeOfEnd]];
         [statusButton addSubview:endLabel];
-        [self Update:nil];
 
     }
-    tasksAtWork = [NSMutableArray array];
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
-    [dict setObject:@"1234" forKey:@"key"];
-    [dict setObject:@"http://s1.goodfon.com/wallpaper/previews-middle/490970.jpg" forKey:@"statusIcon"];
-    [dict setObject:@"dfsdfdsds" forKey:@"summary"];
-    [tasksAtWork addObject:dict];
     
 }
 
@@ -358,5 +351,6 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     [tasksAtWorkTable reloadData];
     [assignedTasksTable reloadData];
+    [tasksAtPauseTable reloadData];
 }
 @end

@@ -59,7 +59,6 @@
     [req setHTTPMethod:@"GET"];
     [req setValue:[self.login text] forHTTPHeaderField:@"login"];
     [req setValue:[[self.password text] MD5] forHTTPHeaderField:@"PasswordHash"];
-    NSLog(@"%@",req);
     NSError* error = nil;
     NSData* infdata = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:&error];
     if (error) {

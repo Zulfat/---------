@@ -25,14 +25,9 @@
         userInfo = [[NSMutableDictionary alloc] init];
         [userInfo setValue:[NSNumber numberWithBool:NO] forKey:@"status"];
         loggedIN = NO;
-        @try {
-          self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]]
+        self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]]
                         instantiateViewControllerWithIdentifier:@"loginView"];
-        }
-        
-        @catch (NSException *exception) {
-            NSLog(@"%@",exception);
-        }
+      
         
     }
     return YES;

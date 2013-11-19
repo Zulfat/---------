@@ -183,7 +183,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Asq-4U-xGu">
-                                <rect key="frame" x="20" y="71" width="153" height="168"/>
+                                <rect key="frame" x="25" y="98" width="153" height="168"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5d3-z9-G9d">
@@ -215,7 +215,8 @@
                         <constraints>
                             <constraint firstItem="V97-vm-W4o" firstAttribute="top" secondItem="V2W-Wd-1sW" secondAttribute="bottom" constant="17" id="3Iu-9Z-p0h"/>
                             <constraint firstItem="V2W-Wd-1sW" firstAttribute="top" secondItem="lbB-jU-Mn7" secondAttribute="bottom" constant="17" id="HLI-5p-0Yr"/>
-                            <constraint firstItem="Asq-4U-xGu" firstAttribute="top" secondItem="swz-Ex-igv" secondAttribute="bottom" constant="51" id="JzV-Wk-Ica"/>
+                            <constraint firstItem="Asq-4U-xGu" firstAttribute="top" secondItem="swz-Ex-igv" secondAttribute="bottom" constant="78" id="JzV-Wk-Ica"/>
+                            <constraint firstItem="0Ok-st-5sb" firstAttribute="top" secondItem="V97-vm-W4o" secondAttribute="bottom" constant="86" id="NvV-qJ-j8f"/>
                             <constraint firstItem="V97-vm-W4o" firstAttribute="centerX" secondItem="5Db-dy-ytS" secondAttribute="centerX" id="Uei-Gq-Ckh"/>
                             <constraint firstItem="lbB-jU-Mn7" firstAttribute="top" secondItem="5d3-z9-G9d" secondAttribute="bottom" constant="34" id="fjo-mz-s8g"/>
                         </constraints>

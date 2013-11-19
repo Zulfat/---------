@@ -14,5 +14,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *surname;
 @property (weak, nonatomic) IBOutlet UILabel *department;
 @property (weak, nonatomic) IBOutlet UILabel *statuslb;
-
 @end

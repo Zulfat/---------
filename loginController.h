@@ -12,5 +12,4 @@
 @property (weak, nonatomic) IBOutlet UITextField *login;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UIView *interView;
-//@property (strong, nonatomic) NSURLConnection* loginConnection;
 @end
