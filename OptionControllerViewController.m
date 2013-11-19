@@ -53,8 +53,6 @@
 }
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     UIImage* img = [UIImage imageWithData:data];
-    
-    Photo.frame.size = img.size;
     [Photo setImage:img];
 }
 
