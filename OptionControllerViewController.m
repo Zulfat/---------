@@ -39,8 +39,7 @@
     NSURL* photourl = [NSURL URLWithString:[prov objectForKey:@"photo"]];
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:photourl];
     [req setHTTPMethod:@"GET"];
-    NSData* photoData = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
-    [Photo setImage:[UIImage imageWithData:photoData]];
+    [NSURLConnection connectionWithRequest:req delegate:self];
     [name setText:[prov objectForKey:@"name"]];
     [surname setText:[prov objectForKey:@"surname"]];
     [department setText:[prov objectForKey:@"department"]];
@@ -51,6 +50,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    UIImage* img = [UIImage imageWithData:data];
+    
+    Photo.frame.size = img.size;
+    [Photo setImage:img];
 }
 
 @end
