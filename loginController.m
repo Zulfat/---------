@@ -63,18 +63,21 @@
     NSError* error = nil;
     NSData* infdata = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:&error];
     if (error) {
-        NSLog(@"%@",error);
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"Error:%@",error] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
     }
-    NSDictionary* inf = [infdata objectFromJSONData];
-    [(AppDelegate*)[[UIApplication sharedApplication] delegate] setLoggedIN:(BOOL)[inf objectForKey:@"loginSuccess"]];
-    if ((BOOL)[inf objectForKey:@"loginSuccess"]) {
-        NSDictionary* userInfo = [[inf objectForKey:@"data"] objectForKey:@"user"];
-        NSArray* tasks = [[inf objectForKey:@"data"] objectForKey:@"tasks"];
-        
-        
-        [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:[self.login text] forKey:@"login"];
-        [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo]setObject:[self.password text] forKey:@"password"];
-        
+    NSMutableDictionary* inf = [infdata mutableObjectFromJSONData];
+    [(AppDelegate*)[[UIApplication sharedApplication] delegate] setLoggedIN:[[inf objectForKey:@"loginSuccess"] boolValue]];
+    if ([(NSNumber*)[inf objectForKey:@"loginSuccess"] boolValue] ) {
+        NSMutableDictionary* userInfo = [[inf objectForKey:@"data"] objectForKey:@"user"];
+        [(AppDelegate*)[[UIApplication sharedApplication] delegate] setUserInfo:userInfo];
+        [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] setObject:[self.login text] forKey:@"login"];
+        [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] setObject:[self.password text] forKey:@"password"];
+        NSDictionary* tasks = [[inf objectForKey:@"data"] objectForKey:@"tasks"];// задаем в appdelegate массивы по задачам
+        AppDelegate* mydel = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+        [mydel setTasksAtPause:[tasks objectForKey:@"pause"]];
+        [mydel setTasksAtWork:[tasks objectForKey:@"working"]];
+        [mydel setAssignedTasks:[tasks objectForKey:@"assigned"]];
         
         [self presentModalViewController:(TasksViewController*)[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController] animated:YES];
     

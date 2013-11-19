@@ -31,12 +31,12 @@
 @end
 
 @implementation TasksViewController
-@synthesize tasksAtWork,assignedTasks,status,scrollView,timeOfEnd,timeOfStart,statusButton,timer,statusBar,tasksAtWorkTable,assignedTasksTable;
+@synthesize status,scrollView,timeOfEnd,timeOfStart,statusButton,timer,statusBar,tasksAtWorkTable,assignedTasksTable,tasksAtPauseTable,tasksAtWork,tasksAtPause,assignedTasks;
 - (IBAction)start_end:(id)sender {
     bool st = [[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue];
     NSString* login = [[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"login"];
     NSString* password = [[(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"password"];
-    NSString* status = [[NSString alloc] init];
+    NSMutableString* Status = [[NSMutableString alloc] init];
     [[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] setValue:[NSNumber numberWithBool:!st] forKey:@"status"]  ;
     if (st) {// st был true, т.е. перход at work -> home
         timeOfEnd = [NSDate date];
@@ -59,7 +59,7 @@
         }
         [statusBar setText:@"Home"];
         [timer invalidate];
-        status = @"off";
+        [Status appendString:@"off"];
     }
     else {// home -> at work
         timeOfStart = [NSDate date] ;
@@ -88,9 +88,9 @@
         }
         [statusBar setText:@"At Work"];
         [self Update:nil];
-        status = @"on";
+        [Status appendString:@"on"];
     }
-    NSURL* changestatusUrl = [NSURL URLWithString:[[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@&cmd=%@",login, [password MD5],status] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL* changestatusUrl = [NSURL URLWithString:[[NSString stringWithFormat:@"http://m.bossnote.ru/empl/setUserStatus.php?login=%@&passwrdHash=%@&cmd=%@",login, [password MD5],Status] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSMutableURLRequest* changeStatusReq = [NSMutableURLRequest requestWithURL:changestatusUrl];
     [changeStatusReq setHTTPMethod:@"POST"];
     [NSURLConnection sendAsynchronousRequest:changeStatusReq queue:nil completionHandler:nil];
@@ -120,9 +120,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [scrollView setDelegate:self];
     timeOfStart =   [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"timeofstart"];
     timeOfEnd =   [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"timeofend"];
+    tasksAtPause = [(AppDelegate*)[[UIApplication sharedApplication] delegate] tasksAtPause];
+    tasksAtWork = [(AppDelegate*)[[UIApplication sharedApplication] delegate] tasksAtWork];
+    assignedTasks = [(AppDelegate*) [[UIApplication sharedApplication] delegate] assignedTasks];
     if ([[[(AppDelegate *)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"status"] boolValue]) {
          [statusButton setBackgroundColor:[UIColor greenColor]];
         [statusBar setText:@"At Work"];
@@ -157,7 +161,15 @@
     assignedTasksTable = assignedTaskstb;
     [scrollView addSubview:assignedTaskstb];
     
-    [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*2,scrollView.frame.size.height)] ;
+    
+    frame.origin.x = tasksAtWorktb.frame.size.width*2; // создаем и добавляем tasksAtPause как subview
+    UITableView* tasksAtPausetb = [[UITableView alloc] initWithFrame:frame];
+    [tasksAtPausetb setDataSource:self];
+    [tasksAtPausetb setDelegate:self];
+    tasksAtPauseTable = tasksAtPausetb;
+    [scrollView addSubview:tasksAtPausetb];
+    
+    [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*3,scrollView.frame.size.height)] ;
     
     NSDateFormatter* formatter = [[NSDateFormatter alloc ] init];
     [formatter setDateFormat:@"dd.MM.yyyy hh:mm"];
@@ -206,9 +218,11 @@
     if (tableView == tasksAtWorkTable) {
         count = [tasksAtWork count];
     }
-    else {
+    if (tableView == assignedTasksTable) {
         count = [assignedTasks count];
     }
+    if (tableView == tasksAtPauseTable)
+        count = [tasksAtPause count];
     return count;
     
 }
@@ -218,8 +232,9 @@
     if (!cell) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"cell" owner:self options:nil] objectAtIndex:0];
     }
+    NSMutableDictionary* prov =[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] ;
     if(tableView == tasksAtWorkTable) {
-        NSMutableDictionary* prov =[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] ;
+        
         NSMutableData* imgSt =[prov objectForKey:[[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]] ;
         NSMutableData* imgPr =[prov objectForKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
         NSMutableData* imgType = [prov objectForKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
@@ -228,7 +243,7 @@
             NSMutableURLRequest* a = [NSURLRequest requestWithURL:statusIconURL cachePolicy:0 timeoutInterval:60];
             //imgSt = [NSMutableData alloc];
            //[prov setObject:imgSt forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]];
-            [NSURLConnection connectionWithRequest:a delegate:self];
+            //[NSURLConnection connectionWithRequest:a delegate:self];
         
        
         }
@@ -255,7 +270,7 @@
         [[(Cellcontr*)cell summaryLabel] setText:[(NSDictionary *)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"summary"]];
         
     }
-    else
+    if (tableView == assignedTasksTable)
     {
         NSMutableData* imgSt = [[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] objectForKey:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]];
         NSMutableData* imgPr = [[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] objectForKey:[(NSDictionary*)[assignedTasks objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
@@ -289,6 +304,39 @@
         [[(Cellcontr*)cell prImage] setImage:[UIImage imageWithData:imgPr]];
         [[(Cellcontr*)cell keyLabel] setText:[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"key"]];
         [[(Cellcontr*)cell summaryLabel] setText:[(NSDictionary *)[assignedTasks objectAtIndex:indexPath.row]objectForKey:@"summary"]];
+    }
+    if (tableView == tasksAtPauseTable) {
+        NSMutableData* imgSt =[prov objectForKey:[[tasksAtPause objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]] ;
+        NSMutableData* imgPr =[prov objectForKey:[(NSDictionary*)[tasksAtPause objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
+        NSMutableData* imgType = [prov objectForKey:[(NSDictionary*)[tasksAtPause objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
+        if (!imgSt) {
+            NSURL *statusIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtPause objectAtIndex:indexPath.row]objectForKey:@"statusIcon"]];// создание и посылка запросов
+            NSMutableURLRequest* a = [NSURLRequest requestWithURL:statusIconURL cachePolicy:0 timeoutInterval:60];
+            //[NSURLConnection connectionWithRequest:a delegate:self];
+            
+            
+        }
+        if (!imgPr) {
+         NSURL* prIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtPause objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
+         NSMutableURLRequest* prIconReq = [NSURLRequest requestWithURL:prIconURL cachePolicy:0 timeoutInterval:60];
+         //imgPr = [[NSMutableData alloc] init];
+         //[[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgPr forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"prIcon"]];
+         [NSURLConnection connectionWithRequest:prIconReq delegate:self];
+         }
+        if (!imgType) {
+         NSURL* typeIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtPause objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
+         NSMutableURLRequest* typeIconReq = [NSURLRequest requestWithURL:typeIconURL cachePolicy:0 timeoutInterval:60];
+         //imgType = [[NSMutableData alloc] init];
+         //[[(AppDelegate*)[[UIApplication sharedApplication] delegate] icons] setObject:imgType forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"typeIcon"]];
+         
+         [NSURLConnection connectionWithRequest:typeIconReq delegate:self];
+         }
+        
+        [[(Cellcontr*)cell statusImage] setImage:[UIImage imageWithData:[prov objectForKey:[(NSDictionary*)[tasksAtPause objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]]]];
+        [[(Cellcontr*)cell typeImage] setImage:[UIImage imageWithData:imgType]];
+        [[(Cellcontr*)cell prImage] setImage:[UIImage imageWithData:imgPr]];
+        [[(Cellcontr*)cell keyLabel] setText:[(NSDictionary *)[tasksAtPause objectAtIndex:indexPath.row]objectForKey:@"key"]];
+        [[(Cellcontr*)cell summaryLabel] setText:[(NSDictionary *)[tasksAtPause objectAtIndex:indexPath.row]objectForKey:@"summary"]];
     }
     return cell;
 }

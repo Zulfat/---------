@@ -18,7 +18,9 @@
 @property (strong, nonatomic) NSDate* timeOfEnd;
 @property (strong,nonatomic) NSTimer* timer;
 @property (weak, nonatomic) IBOutlet UILabel *statusBar;
-@property (weak,nonatomic) UITableView* tasksAtWorkTable;
+@property (strong,nonatomic) UITableView* tasksAtWorkTable;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageController;
-@property (weak, nonatomic) UITableView* assignedTasksTable;
+@property (strong, nonatomic) UITableView* assignedTasksTable;
+@property (strong,nonatomic) UITableView* tasksAtPauseTable;
+@property (strong,nonatomic) NSMutableArray* tasksAtPause;
 @end

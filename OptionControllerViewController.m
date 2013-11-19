@@ -13,6 +13,7 @@
 @end
 
 @implementation OptionControllerViewController
+@synthesize Photo,name,surname,department,statuslb;
 - (IBAction)logOut:(id)sender {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userInfo"];
     [(AppDelegate*)[[UIApplication sharedApplication] delegate] setUserInfo:nil];
@@ -34,6 +35,16 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    NSDictionary* prov = [(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo];
+    NSURL* photourl = [NSURL URLWithString:[prov objectForKey:@"photo"]];
+    NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:photourl];
+    [req setHTTPMethod:@"GET"];
+    NSData* photoData = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:nil];
+    [Photo setImage:[UIImage imageWithData:photoData]];
+    [name setText:[prov objectForKey:@"name"]];
+    [surname setText:[prov objectForKey:@"surname"]];
+    [department setText:[prov objectForKey:@"department"]];
+    [statuslb setText:[prov objectForKey:@"status"]];
 }
 
 - (void)didReceiveMemoryWarning

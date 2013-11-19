@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface OptionControllerViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UIImageView *Photo;
+@property (weak, nonatomic) IBOutlet UILabel *name;
+@property (weak, nonatomic) IBOutlet UILabel *surname;
+@property (weak, nonatomic) IBOutlet UILabel *department;
+@property (weak, nonatomic) IBOutlet UILabel *statuslb;
 
 @end
