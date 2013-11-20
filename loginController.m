@@ -57,8 +57,6 @@
     NSURL* url = [NSURL URLWithString:[[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",[self.login text], [[self.password text] MD5]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:url];
     [req setHTTPMethod:@"GET"];
-    [req setValue:[self.login text] forHTTPHeaderField:@"login"];
-    [req setValue:[[self.password text] MD5] forHTTPHeaderField:@"PasswordHash"];
     NSError* error = nil;
     NSData* infdata = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:&error];
     if (error) {

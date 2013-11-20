@@ -93,7 +93,7 @@
     [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[[(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"workedTime"]];
 }
 -(void) Update: (NSTimer*) t {
-    if (timeOfStart && !timeOfEnd) {
+    /*if (timeOfStart && !timeOfEnd) {
         NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:timeOfStart];
         interval++;
         [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[NSString stringWithFormat:@"%i%i:%i%i",((int)interval/3600)/10,((int)interval/3600)%10,(((int)interval/60)%60)/10,(((int)interval/60)%60)%10]];
@@ -102,7 +102,30 @@
          NSTimeInterval interval = [timeOfStart timeIntervalSinceDate:timeOfStart];
         interval++;
         [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[NSString stringWithFormat:@"%i%i:%i%i",((int)interval/3600)/10,((int)interval/3600)%10,(((int)interval/60)%60)/10,(((int)interval/60)%60)%10]];
+    }*/
+    NSString* login = [[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"login"];
+    NSString* password = [[(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"password"];
+    NSURL* url = [NSURL URLWithString:[[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login, [password MD5]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:url];
+    [req setHTTPMethod:@"GET"];
+    NSError* error = nil;
+    NSData* infdata = [NSURLConnection sendSynchronousRequest:req returningResponse:nil error:&error];
+    NSMutableArray* asTasks = [[[[infdata mutableObjectFromJSONData] objectForKey:@"data"] objectForKey:@"tasks"] objectForKey:@"assigned"];
+    NSMutableArray* woTasks = [[[[infdata mutableObjectFromJSONData] objectForKey:@"data"] objectForKey:@"tasks"] objectForKey:@"working"];
+    NSMutableArray* paTasks = [[[[infdata mutableObjectFromJSONData] objectForKey:@"data"] objectForKey:@"tasks"] objectForKey:@"pause"];
+    if (![assignedTasks isEqual:asTasks]){
+        assignedTasks = asTasks;
+        [assignedTasksTable reloadData];
     }
+    if (![tasksAtWork isEqual:woTasks]){
+        tasksAtWork = woTasks;
+        [tasksAtWorkTable reloadData];
+    }
+    if (![tasksAtPause isEqual:paTasks]){
+        tasksAtPause = paTasks;
+        [tasksAtPauseTable reloadData];
+    }
+    [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[[[[infdata mutableObjectFromJSONData] objectForKey:@"data"] objectForKey:@"user"] objectForKey:@"workedTime" ]];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
