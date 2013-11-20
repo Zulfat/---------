@@ -13,7 +13,7 @@
 @end
 
 @implementation OptionControllerViewController
-@synthesize Photo,name,surname,department,statuslb;
+@synthesize Photo,name,surname,department;
 - (IBAction)logOut:(id)sender {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userInfo"];
     [(AppDelegate*)[[UIApplication sharedApplication] delegate] setUserInfo:nil];
@@ -43,7 +43,6 @@
     [name setText:[prov objectForKey:@"name"]];
     [surname setText:[prov objectForKey:@"surname"]];
     [department setText:[prov objectForKey:@"department"]];
-    [statuslb setText:[prov objectForKey:@"status"]];
 }
 
 - (void)didReceiveMemoryWarning

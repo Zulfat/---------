@@ -52,7 +52,7 @@
             [endLabel setFont:[UIFont systemFontOfSize:20.0]];
             [endLabel setTextColor:[UIColor blackColor]];
             [endLabel setTextAlignment:NSTextAlignmentCenter];
-            [endLabel setText:[formatter stringFromDate:timeOfEnd]];
+            [endLabel setText:[formatter stringFromDate:[NSDate date]]];
             [statusButton addSubview:endLabel];
         }
         [statusBar setText:@"Home"];
@@ -75,7 +75,7 @@
             [startLabel setFont:[UIFont systemFontOfSize:20.0]];
             [startLabel setTextColor:[UIColor blackColor]];
             [startLabel setTextAlignment:NSTextAlignmentCenter];
-            [startLabel setText:[formatter stringFromDate:timeOfStart]];
+            [startLabel setText:[formatter stringFromDate:[NSDate date]]];
             [statusButton addSubview:startLabel];
         }
         if ([[statusButton subviews] count] == 3) {
@@ -83,14 +83,12 @@
             [(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] removeObjectForKey:@"timeofend"];
         }
         [statusBar setText:@"At Work"];
-        [self Update:nil];
         [Status appendString:@"on"];
     }
     NSURL* changestatusUrl = [NSURL URLWithString:[[NSString stringWithFormat:@"http://m.bossnote.ru/empl/setUserStatus.php?login=%@&passwrdHash=%@&cmd=%@",login, [password MD5],Status] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     NSMutableURLRequest* changeStatusReq = [NSMutableURLRequest requestWithURL:changestatusUrl];
     [changeStatusReq setHTTPMethod:@"POST"];
     [NSURLConnection sendAsynchronousRequest:changeStatusReq queue:nil completionHandler:nil];
-    [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[[(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"workedTime"]];
 }
 -(void) Update: (NSTimer*) t {
     /*if (timeOfStart && !timeOfEnd) {
@@ -143,12 +141,14 @@
     
     [scrollView setDelegate:self];
     NSDateFormatter* formatter = [[NSDateFormatter alloc ] init];
-    [formatter setDateFormat:@"dd.MM.yyyy HH:mm"];
+    [formatter setDateFormat:@"dd:MMM:yyyy HH:mm"];
     NSDateFormatter* formatter1 = [[NSDateFormatter alloc ] init];
-    [formatter1 setDateFormat:@"dd.MM.yyyy"];
-    NSString* timeOfStartstr = [NSString stringWithFormat:@"%@ %@",[formatter1 stringFromDate:[NSDate date]],[(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"startTime"]];
+    [formatter1 setDateFormat:@"yyyy"];
+    NSDictionary* prov = [(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo];
+    NSString* timeOfStartstr = [NSString stringWithFormat:@"%@:%@ %@",[prov objectForKey:@"startDate"],[formatter1 stringFromDate:[NSDate date]],[prov objectForKey:@"startTime"]];
+     NSString* timeOfEndstr = [NSString stringWithFormat:@"%@:%@ %@",[prov objectForKey:@"endDate"],[formatter1 stringFromDate:[NSDate date]],[prov objectForKey:@"endTime"]];
     timeOfStart=   [formatter dateFromString:timeOfStartstr];
-    timeOfEnd = [formatter dateFromString:[NSString stringWithFormat:@"%@ %@",[formatter1 stringFromDate:[NSDate date]],[(NSMutableDictionary*)[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"endTime"]]];
+    timeOfEnd = [formatter dateFromString:timeOfEndstr];
     tasksAtPause = [(AppDelegate*)[[UIApplication sharedApplication] delegate] tasksAtPause];
     tasksAtWork = [(AppDelegate*)[[UIApplication sharedApplication] delegate] tasksAtWork];
     assignedTasks = [(AppDelegate*) [[UIApplication sharedApplication] delegate] assignedTasks];
@@ -196,7 +196,7 @@
     
     [scrollView setContentSize:CGSizeMake(scrollView.frame.size.width*3,scrollView.frame.size.height)] ;
     
-    [formatter setDateFormat:@"dd.MM.yyyy hh:mm"];
+    [formatter setDateFormat:@"dd.MM.yyyy HH:mm"];
     
     if ([self timeOfStart] != nil) {
         UILabel* startLabel = [[UILabel alloc] init];

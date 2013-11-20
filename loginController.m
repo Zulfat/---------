@@ -76,7 +76,8 @@
         [mydel setTasksAtWork:[tasks objectForKey:@"working"]];
         [mydel setAssignedTasks:[tasks objectForKey:@"assigned"]];
         
-        [self presentModalViewController:(TasksViewController*)[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController] animated:YES];
+        [self presentViewController:(TasksViewController*)[[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController] animated:YES completion:nil];
+    
     
     }
     else {
