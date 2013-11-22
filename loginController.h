@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JSONKit.h"
-@interface loginController : UIViewController //<NSURLConnectionDataDelegate>
+@interface loginController : UIViewController <UITextFieldDelegate>//<NSURLConnectionDataDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *login;
 @property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UIView *interView;

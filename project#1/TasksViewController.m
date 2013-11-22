@@ -91,16 +91,6 @@
     [NSURLConnection sendAsynchronousRequest:changeStatusReq queue:nil completionHandler:nil];
 }
 -(void) Update: (NSTimer*) t {
-    /*if (timeOfStart && !timeOfEnd) {
-        NSTimeInterval interval = [[NSDate date] timeIntervalSinceDate:timeOfStart];
-        interval++;
-        [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[NSString stringWithFormat:@"%i%i:%i%i",((int)interval/3600)/10,((int)interval/3600)%10,(((int)interval/60)%60)/10,(((int)interval/60)%60)%10]];
-    }
-    if (timeOfEnd && timeOfStart) {
-         NSTimeInterval interval = [timeOfStart timeIntervalSinceDate:timeOfStart];
-        interval++;
-        [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[NSString stringWithFormat:@"%i%i:%i%i",((int)interval/3600)/10,((int)interval/3600)%10,(((int)interval/60)%60)/10,(((int)interval/60)%60)%10]];
-    }*/
     NSString* login = [[(AppDelegate*)[[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"login"];
     NSString* password = [[(AppDelegate*) [[UIApplication sharedApplication] delegate] userInfo] objectForKey:@"password"];
     NSURL* url = [NSURL URLWithString:[[NSString stringWithFormat:@"http://m.bossnote.ru/empl/getUserData.php?login=%@&passwrdHash=%@",login, [password MD5]] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -124,6 +114,10 @@
         [tasksAtPauseTable reloadData];
     }
     [(UILabel*)[[statusButton subviews] objectAtIndex:0] setText:[[[[infdata mutableObjectFromJSONData] objectForKey:@"data"] objectForKey:@"user"] objectForKey:@"workedTime" ]];
+    if ([[[[[infdata objectFromJSONData] objectForKey:@"data"] objectForKey:@"user"] objectForKey:@"isWorking" ] boolValue])
+        [statusButton setBackgroundColor:[UIColor greenColor]];
+    else
+        [statusButton setBackgroundColor:[UIColor grayColor]];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -138,7 +132,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     [scrollView setDelegate:self];
     NSDateFormatter* formatter = [[NSDateFormatter alloc ] init];
     [formatter setDateFormat:@"dd:MMM:yyyy HH:mm"];
@@ -257,9 +250,8 @@
         if (!imgSt) {
             NSURL *statusIconURL = [NSURL URLWithString:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row]objectForKey:@"statusIcon"]];// создание и посылка запросов
             NSMutableURLRequest* a = [NSURLRequest requestWithURL:statusIconURL cachePolicy:0 timeoutInterval:60];
-            //imgSt = [NSMutableData alloc];
-           //[prov setObject:imgSt forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]];
-            //[NSURLConnection connectionWithRequest:a delegate:self];
+           [prov setObject:imgSt forKey:[(NSDictionary*)[tasksAtWork objectAtIndex:indexPath.row] objectForKey:@"statusIcon"]];
+            [NSURLConnection connectionWithRequest:a delegate:self];
         
        
         }

@@ -43,9 +43,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    UIButton* button = [[UIButton alloc] initWithFrame:[[self interView] frame]];
-    [button addTarget:self action:@selector(dismissKeyboard) forControlEvents:0];
-    //[[self view] addSubview:button];
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,7 +84,13 @@
         }
     }
 }
--(void)dismissKeyboard {
-    [self.view endEditing:YES];
+-(BOOL) textFieldShouldReturn:(UITextField *)textField {
+    if ([textField isEqual:_login]) {
+        [_password becomeFirstResponder];
+    }
+    else {
+        [self saveUserInfo:nil];
+    }
+    return YES;
 }
 @end
